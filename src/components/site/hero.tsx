@@ -1,13 +1,9 @@
 import { useRef } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import { FaDiscord } from 'react-icons/fa'
 
-import { Button } from '@/components/ui/button'
-import { MinecraftButton } from '#/components/ui/minecraft-menu'
 import { CopyIpButton } from '#/components/site/copy-ip-button'
 import { HeroBackground } from '#/components/site/hero-background'
 import { ServerStatusChip } from '#/components/site/server-status-chip'
-import { DISCORD_URL } from '#/lib/site-content'
 import type { ServerStatus } from '#/lib/server-status'
 
 const container = {

@@ -1,9 +1,17 @@
-import { Card, CardContent } from '@/components/ui/card'
+import { Gamepad2, Palette, Pickaxe, type LucideIcon } from 'lucide-react'
+
+import { BentoCard, BentoGrid } from '@/components/ui/bento-grid'
 import { MinecraftTag } from '#/components/ui/minecraft-menu'
 import { SectionHeading } from '#/components/site/section-heading'
 import { Reveal } from '#/components/site/motion-primitives'
 import { GAME_MODES } from '#/lib/site-content'
 import { cn } from '@/lib/utils'
+
+const ICONS: Record<string, LucideIcon> = {
+  Pickaxe,
+  Palette,
+  Gamepad2,
+}
 
 export function GameModes() {
   return (
@@ -14,38 +22,52 @@ export function GameModes() {
           title="โหมดเกมทั้งหมด"
           subtitle="เลือกสไตล์การเล่นที่ใช่สำหรับคุณ"
         />
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {GAME_MODES.map((mode, i) => (
-            <Reveal key={mode.tag} delay={i * 0.1} className={cn(i === 0 && 'lg:col-span-2')}>
-              <Card size="sm" className="group h-full p-0">
-                <div
-                  className={cn(
-                    'relative overflow-hidden bg-gradient-to-br',
-                    mode.gradient,
-                    i === 0 ? 'aspect-[2/1] lg:aspect-[2.4/1]' : 'aspect-[2/1]',
-                  )}
-                >
-                  {mode.image ? (
-                    <img
-                      src={mode.image}
-                      alt=""
-                      aria-hidden
-                      className="absolute inset-0 size-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : null}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <MinecraftTag className="absolute bottom-3 left-3 font-mc text-xs">
-                    {mode.tag}
-                  </MinecraftTag>
-                </div>
-                <CardContent className="flex flex-col gap-1.5 py-4">
-                  <h3 className="text-lg font-semibold text-foreground">{mode.title}</h3>
-                  <p className="text-sm text-muted-foreground">{mode.body}</p>
-                </CardContent>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <BentoGrid className="auto-rows-[16rem] lg:grid-cols-3 lg:auto-rows-[11rem]">
+            {GAME_MODES.map((mode, i) => (
+              <BentoCard
+                key={mode.tag}
+                name={mode.title}
+                description={mode.body}
+                href={mode.comingSoon ? undefined : mode.href}
+                cta={mode.cta}
+                Icon={ICONS[mode.icon]}
+                badge={
+                  mode.comingSoon ? (
+                    <MinecraftTag className="font-mc text-[10px] tracking-wider text-gold">
+                      COMING SOON
+                    </MinecraftTag>
+                  ) : undefined
+                }
+                className={cn(
+                  'border-2 border-black/40',
+                  i === 0
+                    ? 'lg:col-span-2 lg:row-span-2'
+                    : 'lg:col-span-1 lg:row-span-1',
+                )}
+                background={
+                  <div
+                    className={cn(
+                      '-z-10 absolute inset-0 bg-gradient-to-br opacity-90',
+                      mode.gradient,
+                      mode.comingSoon && 'grayscale',
+                    )}
+                  >
+                    {mode.image ? (
+                      <img
+                        src={mode.image}
+                        alt=""
+                        aria-hidden
+                        className="absolute inset-0 size-full object-cover opacity-60 transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : null}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  </div>
+                }
+              />
+            ))}
+          </BentoGrid>
+        </Reveal>
       </div>
     </section>
   )

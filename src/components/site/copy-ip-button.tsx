@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, Copy } from 'lucide-react'
 import { motion } from 'motion/react'
 
+import { toast } from '@/components/ui/toast'
 import { SERVER_IP } from '#/lib/site-content'
 import { cn } from '@/lib/utils'
 
@@ -27,8 +28,17 @@ export function CopyIpButton({
       setCopied(true)
       if (timer.current) clearTimeout(timer.current)
       timer.current = setTimeout(() => setCopied(false), 2000)
+      toast.add({
+        title: 'คัดลอกแล้ว!',
+        description: SERVER_IP,
+        type: 'success',
+      })
     } catch {
-      // Clipboard unavailable — leave the IP selectable as fallback.
+      toast.add({
+        title: 'คัดลอกไม่สำเร็จ',
+        description: `กรุณาคัดลอกด้วยตนเอง: ${SERVER_IP}`,
+        type: 'error',
+      })
     }
   }
 
@@ -56,9 +66,6 @@ export function CopyIpButton({
           )}
         />
       )}
-      <span aria-live="polite" className="sr-only">
-        {copied ? 'คัดลอกแล้ว!' : ''}
-      </span>
     </motion.button>
   )
 }

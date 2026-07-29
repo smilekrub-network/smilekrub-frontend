@@ -48,31 +48,43 @@ export const FEATURES = [
 export const GAME_MODES = [
   {
     tag: 'SURVIVAL',
+    icon: 'Pickaxe',
     title: 'เอาชีวิตรอด',
     body: 'โลกเอาชีวิตรอดสุดคลาสสิก พร้อมระบบอาชีพ ที่ดิน และเศรษฐกิจครบครัน',
     gradient: 'from-emerald-700 to-emerald-950',
     image: '/wallpaper/campfire_site_dawn.webp',
+    cta: 'เริ่มเล่น',
+    href: '#join',
+    comingSoon: false,
   },
   {
     tag: 'CREATIVE',
+    icon: 'Palette',
     title: 'ครีเอทีฟ',
     body: 'ปลดปล่อยจินตนาการ สร้างสรรค์ผลงานบนแปลงส่วนตัวของคุณ',
     gradient: 'from-sky-700 to-sky-950',
     image: null,
+    cta: 'เร็ว ๆ นี้',
+    href: '#join',
+    comingSoon: true,
   },
   {
     tag: 'MINIGAMES',
+    icon: 'Gamepad2',
     title: 'มินิเกม',
     body: 'สนุกกับมินิเกมหลากหลาย แข่งกับเพื่อนหรือจับทีมลุยด้วยกัน',
     gradient: 'from-amber-700 to-amber-950',
     image: null,
+    cta: 'เร็ว ๆ นี้',
+    href: '#join',
+    comingSoon: true,
   },
 ] as const
 
 export const JOIN_STEPS = [
   {
     title: 'มี Minecraft Java',
-    body: 'รองรับเวอร์ชัน Java Edition ล่าสุด',
+    body: 'รองรับเวอร์ชัน Java Edition ล่าสุด ต้องใช้ไอดีแท้ (Premium) เท่านั้น ไม่รองรับไอดีเถื่อน',
   },
   {
     title: 'กด Multiplayer',

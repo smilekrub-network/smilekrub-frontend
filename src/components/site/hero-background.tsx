@@ -38,8 +38,8 @@ export function HeroBackground({
         src="/wallpaper/campfire_site_dusk.webp"
         alt=""
         aria-hidden
-        style={{ y }}
-        className="absolute inset-0 size-full scale-110 object-cover"
+        style={{ y, scale: 1.1, willChange: 'transform' }}
+        className="absolute inset-0 size-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
       <div

@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { AnimatedNumber } from '#/components/site/motion-primitives'
 import type { ServerStatus } from '#/lib/server-status'
 import { cn } from '@/lib/utils'

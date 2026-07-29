@@ -36,7 +36,7 @@ export function Footer() {
 
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Smilekrub — Not affiliated with
+            &copy; {new Date().getFullYear()} Smilekrub Network — Not affiliated with
             Mojang or Microsoft.
           </p>
           <div className="flex items-center gap-4 text-muted-foreground">

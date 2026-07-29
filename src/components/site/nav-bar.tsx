@@ -36,10 +36,10 @@ export function NavBar({ status }: { status: ServerStatus }) {
           <ServerStatusChip status={status} className="hidden sm:inline-flex" />
           <Button
             size="sm"
-            render={<a href="#join" />}
+            render={<Link to="/signin" />}
             className="hidden font-medium sm:inline-flex"
           >
-            เข้าเล่น
+            เข้าสู่ระบบ
           </Button>
           <Button
             variant="ghost"
@@ -74,6 +74,13 @@ export function NavBar({ status }: { status: ServerStatus }) {
                   {link.label}
                 </a>
               ))}
+              <Link
+                to="/signin"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 font-medium text-foreground transition-colors hover:bg-muted"
+              >
+                เข้าสู่ระบบ
+              </Link>
               <ServerStatusChip status={status} className="mt-2 self-start sm:hidden" />
             </div>
           </motion.nav>

@@ -1,0 +1,76 @@
+import { useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { toast } from '@/components/ui/toast'
+import { PrivacyPolicyDialog } from '#/components/site/privacy-policy-dialog'
+import { TermsOfServiceDialog } from '#/components/site/terms-of-service-dialog'
+
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5">
+      <path
+        fill="#4285F4"
+        d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.63h6.47c-.28 1.5-1.13 2.78-2.4 3.63v3.02h3.88c2.27-2.09 3.57-5.17 3.57-8.83z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3.02c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.26v3.11C3.24 21.3 7.29 24 12 24z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.27a7.2 7.2 0 0 1 0-4.54V6.62H1.26a12 12 0 0 0 0 10.76z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.77c1.76 0 3.34.61 4.58 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.29 0 3.24 2.7 1.26 6.62l4.01 3.11C6.22 6.88 8.87 4.77 12 4.77z"
+      />
+    </svg>
+  )
+}
+
+export function SignInForm() {
+  const [agreed, setAgreed] = useState(false)
+
+  const onGoogleSignIn = () => {
+    toast.add({
+      title: 'ยังไม่เปิดใช้งานระบบสมาชิก',
+      description: 'ระบบเข้าสู่ระบบด้วย Google กำลังพัฒนา โปรดกลับมาใหม่ภายหลัง',
+      type: 'info',
+    })
+  }
+
+  return (
+    <div className="flex w-full flex-col gap-5">
+      <Button
+        type="button"
+        variant="outline"
+        size="lg"
+        disabled={!agreed}
+        onClick={onGoogleSignIn}
+        className="w-full gap-3 bg-white text-neutral-900 hover:bg-white/90 hover:text-neutral-900 disabled:bg-white/40 disabled:text-neutral-900/50"
+      >
+        <GoogleIcon />
+        เข้าสู่ระบบด้วย Google
+      </Button>
+
+      <label className="flex items-start gap-2.5 text-sm text-muted-foreground">
+        <Checkbox
+          checked={agreed}
+          onCheckedChange={(checked) => setAgreed(checked === true)}
+          className="mt-0.5"
+        />
+        <span>
+          ฉันยอมรับ{' '}
+          <PrivacyPolicyDialog className="text-primary underline-offset-4 hover:underline">
+            นโยบายความเป็นส่วนตัว
+          </PrivacyPolicyDialog>{' '}
+          และ{' '}
+          <TermsOfServiceDialog className="text-primary underline-offset-4 hover:underline">
+            ข้อกำหนดการใช้งาน
+          </TermsOfServiceDialog>
+        </span>
+      </label>
+    </div>
+  )
+}

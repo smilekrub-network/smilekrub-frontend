@@ -14,25 +14,23 @@ export function HowToJoin() {
         />
         <Stagger className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-4">
           {JOIN_STEPS.map((step, i) => (
-            <StaggerItem key={step.title} className="relative">
+            <StaggerItem key={step.title} className="relative flex flex-col items-center text-center">
               {i < JOIN_STEPS.length - 1 ? (
                 <span
                   aria-hidden
-                  className="absolute top-6 left-16 hidden h-0.5 w-[calc(100%-4rem)] bg-border lg:block"
+                  className="absolute top-6 left-[calc(50%+1.5rem)] hidden h-0.5 w-[calc(100%-3rem)] bg-border lg:block"
                 />
               ) : null}
-              <div className="flex items-start gap-4 lg:flex-col">
-                <span
-                  className="relative z-10 flex size-12 shrink-0 items-center justify-center border-2 border-black/50 bg-grass-deep font-mc text-lg text-white shadow-[inset_-2px_-3px_#0006,inset_2px_2px_#ffffff20]"
-                  style={{ imageRendering: 'pixelated' }}
-                >
-                  {i + 1}
-                </span>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="font-semibold text-foreground">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">{step.body}</p>
-                  {i === 2 ? <CopyIpButton compact className="mt-1" /> : null}
-                </div>
+              <span
+                className="relative z-10 flex size-12 shrink-0 items-center justify-center border-2 border-black/50 bg-grass-deep font-mc text-lg text-white shadow-[inset_-2px_-3px_#0006,inset_2px_2px_#ffffff20]"
+                style={{ imageRendering: 'pixelated' }}
+              >
+                {i + 1}
+              </span>
+              <div className="mt-4 flex flex-col items-center gap-1.5">
+                <h3 className="font-semibold text-foreground">{step.title}</h3>
+                <p className="text-sm text-muted-foreground">{step.body}</p>
+                {i === 2 ? <CopyIpButton compact className="mt-1" /> : null}
               </div>
             </StaggerItem>
           ))}

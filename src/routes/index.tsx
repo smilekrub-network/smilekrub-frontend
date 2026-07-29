@@ -14,6 +14,9 @@ import { useServerStatus } from '#/lib/use-server-status'
 export const Route = createFileRoute('/')({
   component: Home,
   loader: () => getServerStatus(),
+  head: () => ({
+    meta: [{ title: 'Smilekrub Network | หน้าแรก' }],
+  }),
 })
 
 function Home() {
