@@ -1,6 +1,7 @@
 
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 @import "@fontsource/ibm-plex-sans-thai/thai.css";
@@ -150,6 +151,21 @@ body {
   --color-stone: oklch(0.6 0.005 240);
   --color-stone-deep: oklch(0.3 0.006 240);
   --color-gold: oklch(0.8 0.14 85);
+
+  /* Classic Minecraft chat colors (§ codes) — used by MinecraftTag variants. */
+  --color-mc-green: #55ff55;
+  --color-mc-dark-green: #00aa00;
+  --color-mc-red: #ff5555;
+  --color-mc-dark-red: #aa0000;
+  --color-mc-blue: #5555ff;
+  --color-mc-dark-blue: #0000aa;
+  --color-mc-aqua: #55ffff;
+  --color-mc-yellow: #ffff55;
+  --color-mc-gold: #ffaa00;
+  --color-mc-purple: #ff55ff;
+  --color-mc-dark-purple: #aa00aa;
+  --color-mc-gray: #aaaaaa;
+  --color-mc-dark-gray: #555555;
 }
 
 @layer base {

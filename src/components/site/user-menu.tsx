@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useRouter } from '@tanstack/react-router'
-import { LayoutDashboard, LogOut, User } from 'lucide-react'
+import { Gamepad2, LayoutDashboard, LogOut, User } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -74,6 +74,10 @@ export function UserMenuItems({ showAdminLink }: { showAdminLink: boolean }) {
         <DropdownMenuItem render={<Link to="/profile" />}>
           <User />
           โปรไฟล์
+        </DropdownMenuItem>
+        <DropdownMenuItem render={<Link to="/register" />}>
+          <Gamepad2 />
+          สมัครเข้าเซิร์ฟ
         </DropdownMenuItem>
         {showAdminLink ? (
           <DropdownMenuItem render={<Link to="/admin" />}>

@@ -9,18 +9,23 @@ import { HowToJoin } from '#/components/site/how-to-join'
 import { NavBar } from '#/components/site/nav-bar'
 import { NewsGrid } from '#/components/site/news-grid'
 import { getServerStatus } from '#/lib/server-status'
+import { fetchNewsList } from '#/lib/news-server'
 import { useServerStatus } from '#/lib/use-server-status'
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: () => getServerStatus(),
+  loader: async () => ({
+    status: await getServerStatus(),
+    news: await fetchNewsList({ data: { perPage: 3 } }),
+  }),
   head: () => ({
     meta: [{ title: 'Smilekrub Network | หน้าแรก' }],
   }),
 })
 
 function Home() {
-  const status = useServerStatus(Route.useLoaderData())
+  const { status: initialStatus, news } = Route.useLoaderData()
+  const status = useServerStatus(initialStatus)
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -29,7 +34,7 @@ function Home() {
       <Features />
       <GameModes />
       <HowToJoin />
-      <NewsGrid />
+      <NewsGrid items={news.items} />
       <Community />
       <Footer />
     </div>

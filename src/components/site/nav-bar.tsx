@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useRouteContext } from '@tanstack/react-router'
-import { LayoutDashboard, LogOut, Menu, User, X } from 'lucide-react'
+import { Gamepad2, LayoutDashboard, LogOut, Menu, User, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { Button } from '@/components/ui/button'
@@ -112,6 +112,14 @@ export function NavBar({ status }: { status: ServerStatus }) {
                   >
                     <User className="size-4" />
                     โปรไฟล์
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 font-medium text-foreground transition-colors hover:bg-muted"
+                  >
+                    <Gamepad2 className="size-4" />
+                    สมัครเข้าเซิร์ฟ
                   </Link>
                   {isAdmin ? (
                     <Link

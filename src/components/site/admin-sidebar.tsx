@@ -3,6 +3,7 @@ import {
   ChevronsUpDown,
   ExternalLink,
   Gamepad2,
+  KeyRound,
   LayoutDashboard,
   Newspaper,
   Settings,
@@ -31,7 +32,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import { DISCORD_URL, NEWS_ITEMS } from '#/lib/site-content'
+import { DISCORD_URL } from '#/lib/site-content'
 import type { ServerStatus } from '#/lib/server-status'
 
 interface AdminNavItem {
@@ -43,12 +44,7 @@ interface AdminNavItem {
 
 const MANAGE_NAV: Array<AdminNavItem> = [
   { label: 'แดชบอร์ด', icon: LayoutDashboard, to: '/admin' },
-  {
-    label: 'ข่าวสาร',
-    icon: Newspaper,
-    to: '/admin/news',
-    badge: () => String(NEWS_ITEMS.length),
-  },
+  { label: 'ข่าวสาร', icon: Newspaper, to: '/admin/news' },
   {
     label: 'ผู้เล่น',
     icon: Gamepad2,
@@ -56,6 +52,7 @@ const MANAGE_NAV: Array<AdminNavItem> = [
     badge: (status) =>
       status.ok && status.online ? String(status.players.online) : null,
   },
+  { label: 'สมิลคีย์', icon: KeyRound, to: '/admin/smilekeys' },
 ]
 
 const SYSTEM_NAV: Array<AdminNavItem> = [

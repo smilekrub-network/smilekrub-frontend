@@ -36,6 +36,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin': 'แดชบอร์ด',
   '/admin/news': 'ข่าวสาร',
   '/admin/players': 'ผู้เล่น',
+  '/admin/smilekeys': 'สมิลคีย์',
   '/admin/settings': 'ตั้งค่าเซิร์ฟเวอร์',
 }
 

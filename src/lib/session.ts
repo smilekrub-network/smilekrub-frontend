@@ -3,6 +3,7 @@ import { getRequestHeader } from '@tanstack/react-start/server'
 
 import { API_URL } from '#/lib/auth-client'
 import type { AuthSession } from '#/lib/auth-client'
+import type { PlayerRegistration } from '#/lib/register-api'
 
 /**
  * Reads the Better Auth session on the server by forwarding the browser's
@@ -32,6 +33,30 @@ export const fetchSession = createServerFn({ method: 'GET' }).handler(
       return session?.user ? session : null
     } catch {
       // Auth API unreachable — treat as signed out rather than crashing the page.
+      return null
+    }
+  },
+)
+
+/**
+ * Whether the current user already has a server registration, resolved on
+ * the server (same cookie-forwarding trick as `fetchSession`) so the
+ * /register page can decide between the form and the "already registered"
+ * view before the first paint.
+ */
+export const fetchMyRegistration = createServerFn({ method: 'GET' }).handler(
+  async (): Promise<PlayerRegistration | null> => {
+    const cookie = getRequestHeader('cookie')
+    if (!cookie) return null
+
+    try {
+      const res = await fetch(`${API_URL}/api/register/me`, {
+        headers: { cookie },
+        signal: AbortSignal.timeout(5000),
+      })
+      if (!res.ok) return null
+      return (await res.json()) as PlayerRegistration | null
+    } catch {
       return null
     }
   },

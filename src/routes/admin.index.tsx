@@ -20,10 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { NEWS_ITEMS, SERVER_IP } from '#/lib/site-content'
+import { SERVER_IP } from '#/lib/site-content'
+import { fetchNewsList } from '#/lib/news-server'
 
 export const Route = createFileRoute('/admin/')({
   component: AdminDashboard,
+  loader: () => fetchNewsList({ data: { perPage: 5 } }),
   head: () => ({
     meta: [{ title: 'Smilekrub Network | แดชบอร์ดแอดมิน' }],
   }),
@@ -31,7 +33,8 @@ export const Route = createFileRoute('/admin/')({
 
 const adminRoute = getRouteApi('/admin')
 
-function formatDate(iso: string) {
+function formatDate(iso: string | null) {
+  if (!iso) return '—'
   return new Date(iso).toLocaleDateString('th-TH', {
     year: 'numeric',
     month: 'short',
@@ -71,7 +74,8 @@ function AdminDashboard() {
   const online = status.ok && status.online
   const players = status.ok ? status.players : { online: 0, max: 0, sample: [] }
   const capacity = players.max > 0 ? (players.online / players.max) * 100 : 0
-  const recentNews = NEWS_ITEMS.slice(0, 5)
+  const news = Route.useLoaderData()
+  const recentNews = news.items
 
   return (
     <>
@@ -90,8 +94,10 @@ function AdminDashboard() {
         />
         <StatCard
           label="ข่าวสารที่เผยแพร่"
-          value={String(NEWS_ITEMS.length)}
-          hint={`ล่าสุด ${formatDate(NEWS_ITEMS[0].publishedAt)}`}
+          value={String(news.total)}
+          hint={
+            recentNews[0] ? `ล่าสุด ${formatDate(recentNews[0].publishedAt)}` : 'ยังไม่มีข่าวสาร'
+          }
           icon={Newspaper}
         />
         <StatCard
@@ -128,7 +134,7 @@ function AdminDashboard() {
                   <TableRow key={item.id}>
                     <TableCell className="max-w-0">
                       <p className="truncate font-medium text-foreground">{item.title}</p>
-                      <p className="truncate text-xs text-muted-foreground">{item.author}</p>
+                      <p className="truncate text-xs text-muted-foreground">{item.authorName}</p>
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary">{item.category}</Badge>
