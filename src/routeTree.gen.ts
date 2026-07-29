@@ -10,7 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminNewsRouteImport } from './routes/admin.news'
+import { Route as AdminPlayersRouteImport } from './routes/admin.players'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsNewsIdRouteImport } from './routes/news.$newsId'
 
@@ -19,10 +25,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsRoute = AdminNewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPlayersRoute = AdminPlayersRouteImport.update({
+  id: '/players',
+  path: '/players',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
 } as any)
 const NewsIndexRoute = NewsIndexRouteImport.update({
   id: '/news/',
@@ -37,33 +73,82 @@ const NewsNewsIdRoute = NewsNewsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/profile': typeof ProfileRoute
   '/signin': typeof SigninRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/players': typeof AdminPlayersRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/news/$newsId': typeof NewsNewsIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/news/': typeof NewsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
   '/signin': typeof SigninRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/players': typeof AdminPlayersRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/news/$newsId': typeof NewsNewsIdRoute
+  '/admin': typeof AdminIndexRoute
   '/news': typeof NewsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/profile': typeof ProfileRoute
   '/signin': typeof SigninRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/players': typeof AdminPlayersRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/news/$newsId': typeof NewsNewsIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/news/': typeof NewsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/news/$newsId' | '/news/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/profile'
+    | '/signin'
+    | '/admin/news'
+    | '/admin/players'
+    | '/admin/settings'
+    | '/news/$newsId'
+    | '/admin/'
+    | '/news/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/news/$newsId' | '/news'
-  id: '__root__' | '/' | '/signin' | '/news/$newsId' | '/news/'
+  to:
+    | '/'
+    | '/profile'
+    | '/signin'
+    | '/admin/news'
+    | '/admin/players'
+    | '/admin/settings'
+    | '/news/$newsId'
+    | '/admin'
+    | '/news'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/profile'
+    | '/signin'
+    | '/admin/news'
+    | '/admin/players'
+    | '/admin/settings'
+    | '/news/$newsId'
+    | '/admin/'
+    | '/news/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  ProfileRoute: typeof ProfileRoute
   SigninRoute: typeof SigninRoute
   NewsNewsIdRoute: typeof NewsNewsIdRoute
   NewsIndexRoute: typeof NewsIndexRoute
@@ -78,12 +163,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signin': {
       id: '/signin'
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/news': {
+      id: '/admin/news'
+      path: '/news'
+      fullPath: '/admin/news'
+      preLoaderRoute: typeof AdminNewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/players': {
+      id: '/admin/players'
+      path: '/players'
+      fullPath: '/admin/players'
+      preLoaderRoute: typeof AdminPlayersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/news/': {
       id: '/news/'
@@ -102,8 +229,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminNewsRoute: typeof AdminNewsRoute
+  AdminPlayersRoute: typeof AdminPlayersRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminNewsRoute: AdminNewsRoute,
+  AdminPlayersRoute: AdminPlayersRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  ProfileRoute: ProfileRoute,
   SigninRoute: SigninRoute,
   NewsNewsIdRoute: NewsNewsIdRoute,
   NewsIndexRoute: NewsIndexRoute,

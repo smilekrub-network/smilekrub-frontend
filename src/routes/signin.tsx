@@ -1,8 +1,24 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 
 import { SignInForm } from '#/components/site/sign-in-form'
 
+/** Only same-site paths are accepted, so `?redirect=` cannot bounce off-site. */
+function safeRedirect(value: unknown): string | undefined {
+  return typeof value === 'string' && value.startsWith('/') && !value.startsWith('//')
+    ? value
+    : undefined
+}
+
 export const Route = createFileRoute('/signin')({
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
+    const target = safeRedirect(search.redirect)
+    return target ? { redirect: target } : {}
+  },
+  beforeLoad: ({ context, search }) => {
+    if (context.session) {
+      throw redirect({ href: search.redirect ?? '/' })
+    }
+  },
   component: SignIn,
   head: () => ({
     meta: [{ title: 'Smilekrub Network | เข้าสู่ระบบ' }],
@@ -10,6 +26,8 @@ export const Route = createFileRoute('/signin')({
 })
 
 function SignIn() {
+  const { redirect: redirectTo } = Route.useSearch()
+
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="relative hidden flex-col justify-between overflow-hidden p-10 lg:flex">
@@ -49,7 +67,7 @@ function SignIn() {
               เข้าสู่ระบบด้วยบัญชี Google เพื่อสมัครสมาชิกคอมมูนิตี้ Smilekrub
             </p>
           </div>
-          <SignInForm />
+          <SignInForm redirectTo={redirectTo} />
         </div>
       </div>
     </div>

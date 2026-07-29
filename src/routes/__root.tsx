@@ -1,12 +1,22 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { Toaster } from '@/components/ui/toast'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { fetchSession } from '#/lib/session'
+import type { AuthSession } from '#/lib/auth-client'
 
 import appCss from '../styles.css?url'
 
-export const Route = createRootRoute({
+export interface RouterContext {
+  session: AuthSession | null
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  // Resolved once per navigation and inherited by every child route, so guards
+  // can read `context.session` synchronously.
+  beforeLoad: async () => ({ session: await fetchSession() }),
   head: () => ({
     meta: [
       {
@@ -46,20 +56,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
-        <Toaster>
-          {children}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-        </Toaster>
+        <TooltipProvider>
+          <Toaster>
+            {children}
+            <TanStackDevtools
+              config={{
+                position: 'bottom-right',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+          </Toaster>
+        </TooltipProvider>
         <Scripts />
       </body>
     </html>

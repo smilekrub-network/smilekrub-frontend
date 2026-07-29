@@ -21,9 +21,9 @@ export function Community() {
           title="เข้าร่วมคอมมูนิตี้"
           subtitle="พูดคุย แชร์ผลงาน และติดตามข่าวสารได้ทุกช่องทาง"
         />
-        <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SOCIAL_LINKS.map((social, i) => (
-            <StaggerItem key={social.label} className={cn(i === 0 && 'sm:col-span-2 lg:col-span-1')}>
+        <Stagger className="flex flex-wrap justify-center gap-4">
+          {SOCIAL_LINKS.map((social) => (
+            <StaggerItem key={social.label} className="w-full sm:w-[calc(50%-0.5rem)] lg:w-72">
               <Card
                 size="sm"
                 className="group h-full bg-card/80 backdrop-blur transition-all hover:-translate-y-1 hover:ring-primary/40"

@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from '@/components/ui/toast'
 import { PrivacyPolicyDialog } from '#/components/site/privacy-policy-dialog'
 import { TermsOfServiceDialog } from '#/components/site/terms-of-service-dialog'
+import { authClient } from '#/lib/auth-client'
 
 function GoogleIcon() {
   return (
@@ -29,15 +31,32 @@ function GoogleIcon() {
   )
 }
 
-export function SignInForm() {
+export function SignInForm({ redirectTo = '/' }: { redirectTo?: string }) {
   const [agreed, setAgreed] = useState(false)
+  const [pending, setPending] = useState(false)
 
-  const onGoogleSignIn = () => {
-    toast.add({
-      title: 'ยังไม่เปิดใช้งานระบบสมาชิก',
-      description: 'ระบบเข้าสู่ระบบด้วย Google กำลังพัฒนา โปรดกลับมาใหม่ภายหลัง',
-      type: 'info',
+  const onGoogleSignIn = async () => {
+    setPending(true)
+
+    // The auth API lives on another origin, so callbackURL must be absolute —
+    // a bare path would resolve against the API host, not the app.
+    const origin = window.location.origin
+
+    const { error } = await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: `${origin}${redirectTo}`,
+      errorCallbackURL: `${origin}/signin`,
     })
+
+    if (error) {
+      setPending(false)
+      toast.add({
+        title: 'เข้าสู่ระบบไม่สำเร็จ',
+        description: error.message ?? 'ไม่สามารถเชื่อมต่อกับ Google ได้ กรุณาลองใหม่อีกครั้ง',
+        type: 'error',
+      })
+    }
+    // On success the browser is redirected to Google, so `pending` stays true.
   }
 
   return (
@@ -46,12 +65,12 @@ export function SignInForm() {
         type="button"
         variant="outline"
         size="lg"
-        disabled={!agreed}
+        disabled={!agreed || pending}
         onClick={onGoogleSignIn}
         className="w-full gap-3 bg-white text-neutral-900 hover:bg-white/90 hover:text-neutral-900 disabled:bg-white/40 disabled:text-neutral-900/50"
       >
-        <GoogleIcon />
-        เข้าสู่ระบบด้วย Google
+        {pending ? <Loader2 className="size-5 animate-spin" /> : <GoogleIcon />}
+        {pending ? 'กำลังเข้าสู่ระบบ…' : 'เข้าสู่ระบบด้วย Google'}
       </Button>
 
       <label className="flex items-start gap-2.5 text-sm text-muted-foreground">
