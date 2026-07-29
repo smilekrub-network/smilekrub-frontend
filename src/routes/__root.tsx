@@ -15,7 +15,16 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Smilekrub — เซิร์ฟเวอร์ Minecraft',
+      },
+      {
+        name: 'description',
+        content:
+          'Smilekrub เซิร์ฟเวอร์ Minecraft สุดอบอุ่น เล่นเลยที่ alpha.sk-mc.net — สร้าง สำรวจ และยิ้มไปด้วยกัน',
+      },
+      {
+        name: 'theme-color',
+        content: '#101711',
       },
     ],
     links: [
@@ -30,11 +39,11 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="th" className="dark">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background text-foreground antialiased">
         {children}
         <TanStackDevtools
           config={{
