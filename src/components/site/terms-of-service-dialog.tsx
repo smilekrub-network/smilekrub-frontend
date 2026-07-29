@@ -42,12 +42,14 @@ export function TermsOfServiceDialog({
       <DialogTrigger render={<button type="button" />} className={className}>
         {children}
       </DialogTrigger>
-      <DialogContent className="grid max-h-[85vh] max-w-2xl grid-rows-[auto_1fr_auto] gap-0 overflow-hidden p-0 sm:max-w-2xl">
-        <DialogHeader className="gap-2 border-b border-border px-6 pt-6 pb-4">
+      <DialogContent className="grid max-h-[85vh] max-w-2xl grid-rows-[auto_1fr_auto] gap-0 overflow-hidden rounded-none border border-white/10 p-0 shadow-[0_8px_0_rgba(0,0,0,0.5)] sm:max-w-2xl">
+        <DialogHeader className="items-center gap-2 border-b border-border bg-muted/30 px-6 pt-8 pb-6 text-center">
           <MinecraftTag className="w-fit font-mc text-[10px] tracking-wider text-primary">
             TERMS OF SERVICE
           </MinecraftTag>
-          <DialogTitle className="text-xl">ข้อกำหนดการใช้งาน</DialogTitle>
+          <DialogTitle className="font-mc text-2xl tracking-wide text-foreground drop-shadow-[0_2px_0_rgba(0,0,0,0.4)] sm:text-3xl">
+            ข้อกำหนดการใช้งาน
+          </DialogTitle>
           <p className="text-xs text-muted-foreground">
             บังคับใช้กับการใช้งานเว็บไซต์และเซิร์ฟเวอร์ Smilekrub ({SERVER_IP})
           </p>
