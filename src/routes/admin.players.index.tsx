@@ -1,5 +1,6 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { Ban, MoreHorizontal, ServerOff, UserCog, Users } from 'lucide-react'
+import { useState } from 'react'
+import { createFileRoute, getRouteApi, Link, useNavigate } from '@tanstack/react-router'
+import { Ban, MoreHorizontal, Search, ServerOff, UserCog, Users } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -27,6 +28,8 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@/components/ui/empty'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -36,7 +39,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export const Route = createFileRoute('/admin/players')({
+export const Route = createFileRoute('/admin/players/')({
   component: AdminPlayers,
   head: () => ({
     meta: [{ title: 'Smilekrub Network | จัดการผู้เล่น' }],
@@ -45,13 +48,54 @@ export const Route = createFileRoute('/admin/players')({
 
 const adminRoute = getRouteApi('/admin')
 
+function PlayerLookupCard() {
+  const navigate = useNavigate()
+  const [name, setName] = useState('')
+
+  const onSubmit = () => {
+    const trimmed = name.trim()
+    if (!trimmed) return
+    navigate({ to: '/admin/players/$name', params: { name: trimmed } })
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>ค้นหาผู้เล่น</CardTitle>
+        <CardDescription>ดูข้อมูลทั้งหมดของผู้เล่นคนใดก็ได้ ไม่จำกัดแค่คนที่ออนไลน์อยู่</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Field>
+          <FieldLabel htmlFor="player-lookup">ชื่อผู้เล่น</FieldLabel>
+          <div className="flex gap-2">
+            <Input
+              id="player-lookup"
+              placeholder="เช่น FewFond_"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
+            />
+            <Button type="button" disabled={!name.trim()} onClick={onSubmit}>
+              <Search />
+              ค้นหา
+            </Button>
+          </div>
+        </Field>
+      </CardContent>
+    </Card>
+  )
+}
+
 function AdminPlayers() {
   const status = adminRoute.useLoaderData()
   const online = status.ok && status.online
   const players = status.ok ? status.players : { online: 0, max: 0, sample: [] }
 
   return (
-    <Card>
+    <div className="flex flex-col gap-6">
+      <PlayerLookupCard />
+
+      <Card>
       <CardHeader className="border-b">
         <CardTitle>ผู้เล่นออนไลน์</CardTitle>
         <CardDescription>
@@ -137,6 +181,12 @@ function AdminPlayers() {
                       />
                       <DropdownMenuContent align="end" className="w-44">
                         <DropdownMenuGroup>
+                          <DropdownMenuItem
+                            render={<Link to="/admin/players/$name" params={{ name: player.name }} />}
+                          >
+                            <Search />
+                            ดูข้อมูลทั้งหมด
+                          </DropdownMenuItem>
                           <DropdownMenuItem disabled>
                             <UserCog />
                             จัดการยศ
@@ -158,6 +208,7 @@ function AdminPlayers() {
           </Table>
         )}
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   )
 }
